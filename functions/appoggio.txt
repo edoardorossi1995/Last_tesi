@@ -1,0 +1,64 @@
+import torch
+import torch
+import torch.nn as nn
+import math
+import torch.optim as optim
+import torch.nn.init as init
+
+# Verifica che PyTorch sia installato correttamente
+print(torch.__version__)
+
+# Verifica che sia possibile importare il pacchetto senza errori
+print(torch.randn(5, 5))
+
+# fit e predict definite con pytorch
+
+def my_fit(x_train, y_train, model, criterion, optimizer):
+    optimizer.zero_grad()
+    outputs = model(x_train)
+    loss = criterion(outputs, y_train)
+    loss.backward()
+    optimizer.step()
+
+def my_predict(x_test, model):
+    y_pred = model(x_test)
+    return y_pred
+
+class NeuralNet(nn.Module):
+    def __init__(self, input_dim, inner_dim_1):
+        super(NeuralNet, self).__init__()
+        self.fc1 = nn.Linear(input_dim, inner_dim_1)
+        self.fc2 = nn.Linear(inner_dim_1, 1)
+
+        # Inizializza i pesi dei layer con distribuzione normale
+        init.normal_(self.fc1.weight)
+        init.normal_(self.fc2.weight)
+
+    def forward(self, x):
+        x = torch.exp(self.fc1(x))
+        x = torch.log(self.fc2(x))
+        return x
+
+criterion = nn.MSELoss()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+n = load_data('_.pkl')
+if IN_COLAB == True:
+    n = load_data('*.pkl')
+
+action_vector_dimension = 2
+
+# Architettura rete neurale
+input_dim = n['n_components'] + action_vector_dimension
+inner_dim_1 = 32
+output_dim = 1
+
+print("input dim: ", input_dim)
+print("inner layer dim: ", inner_dim_1)
+print("output dim: ", output_dim)
+
+
+# Costruzione del modello
+
+# Definizione del modello
+rete_neurale = NeuralNet(input_dim, inner_dim_1)
