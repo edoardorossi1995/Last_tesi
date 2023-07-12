@@ -161,3 +161,9 @@ cython_debug/
 
 MDP_clean_data/kmeans
 MDP_data/kmeans
+df_a.csv
+df.csv
+df_rew.csv
+DQN_data/df_a.csv
+DQN_data/df.csv
+DQN_data/df_rew.csv
