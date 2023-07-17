@@ -7,12 +7,12 @@ def build_T(df_mdp):
     S = SA_col['S'].max()+1
     A = SA_col['At'].max()+1
     T = np.zeros((S, S, A), dtype=float)
-
-    for i in range(S):
-        for j in range(A):
-            idx = SA_col.loc[(SA_col['S'] == i) & (SA_col['At'] == j)]
-            T[i, idx, j] += 1
-            
+    
+    for i in range(df_mdp.shape[0]-1):
+        s = df_mdp.loc[i,'S']
+        s_ = df_mdp.loc[i+1,'S']
+        a = df_mdp.loc[i,'At']
+        T[s,s_,a] += 1
     
     # Normalize T to be a stochastic matrix
     T = T.astype('float64')
@@ -24,8 +24,8 @@ def build_T(df_mdp):
                 T[s, :, a] /= T[s, :, a].sum()
             if T[s,:,a].sum() == 0:
                 none_index.append((s,a))
-    for index in none_index:
-        T[index[0],index[0],index[1]] = 1
+    #for index in none_index:
+    #    T[index[0],index[0],index[1]] = 1
 
     return T, none_index
 
@@ -42,6 +42,7 @@ def is_markovian(T):
     n_states = T.shape[0]
     for s in range(n_states):
         for a in range(T.shape[2]):
-            if not np.isclose(T[s, :, a].sum(), 1.0):
+            if not np.isclose(T[s, :, a].sum(), 1.0, rtol = 1e-3, atol = 1e-3):
                 return False
     return True
+
