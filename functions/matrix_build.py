@@ -7,11 +7,11 @@ def build_T(df_mdp):
     S = SA_col['S'].max()+1
     A = SA_col['At'].max()+1
     T = np.zeros((S, S, A), dtype=float)
-    
-    for i in range(df_mdp.shape[0]-1):
-        s = df_mdp.loc[i,'S']
-        s_ = df_mdp.loc[i+1,'S']
-        a = df_mdp.loc[i,'At']
+   
+    for j in range(df_mdp.shape[0]-1):
+        s = df_mdp.iloc[j]['S']
+        s_ = df_mdp.iloc[j+1]['S']
+        a = df_mdp.iloc[j]['At']
         T[s,s_,a] += 1
     
     # Normalize T to be a stochastic matrix
